@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Calculator
+
+  Created by Dmitry Terekhov on 17.05.15.
+  Copyright (c) 2015 Stanford University. All rights reserved.
+*/
+
+"Error" = "Error";
+"Division by zero" = "Division by zero";
+"Need 2nd operand" = "Need 2nd operand";
+"Variable not set" = "Variable %@ not set";

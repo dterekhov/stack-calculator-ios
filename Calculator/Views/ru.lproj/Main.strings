@@ -1,0 +1,120 @@
+
+/* Class = "UIButton"; normalTitle = "M"; ObjectID = "2N0-xk-XQV"; */
+"2N0-xk-XQV.normalTitle" = "M";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "2aw-RA-zPp"; */
+"2aw-RA-zPp.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "√"; ObjectID = "5hQ-Gm-3Zw"; */
+"5hQ-Gm-3Zw.normalTitle" = "√";
+
+/* Class = "UIButton"; normalTitle = "acos"; ObjectID = "6wv-PL-UY9"; */
+"6wv-PL-UY9.normalTitle" = "acos";
+
+/* Class = "UIButton"; normalTitle = "2"; ObjectID = "7E4-RC-yVV"; */
+"7E4-RC-yVV.normalTitle" = "2";
+
+/* Class = "UIButton"; normalTitle = "^"; ObjectID = "7Ib-GZ-sbM"; */
+"7Ib-GZ-sbM.normalTitle" = "^";
+
+/* Class = "UIBarButtonItem"; title = "История"; ObjectID = "7S9-7q-QZx"; */
+"7S9-7q-QZx.title" = "История";
+
+/* Class = "UIButton"; normalTitle = "e"; ObjectID = "7TW-t4-uvV"; */
+"7TW-t4-uvV.normalTitle" = "e";
+
+/* Class = "UIButton"; normalTitle = "π"; ObjectID = "8rC-Za-LAy"; */
+"8rC-Za-LAy.normalTitle" = "π";
+
+/* Class = "UIButton"; normalTitle = "✕"; ObjectID = "95O-QY-KJy"; */
+"95O-QY-KJy.normalTitle" = "✕";
+
+/* Class = "UIButton"; normalTitle = "÷"; ObjectID = "9da-pO-FsH"; */
+"9da-pO-FsH.normalTitle" = "÷";
+
+/* Class = "UIButton"; normalTitle = "Отмена"; ObjectID = "EBR-V8-50G"; */
+"EBR-V8-50G.normalTitle" = "Отмена";
+
+/* Class = "UIButton"; normalTitle = "exp"; ObjectID = "FUl-bE-TXX"; */
+"FUl-bE-TXX.normalTitle" = "exp";
+
+/* Class = "UIButton"; normalTitle = "asin"; ObjectID = "FXh-Dw-Y4a"; */
+"FXh-Dw-Y4a.normalTitle" = "asin";
+
+/* Class = "UIButton"; normalTitle = "ln"; ObjectID = "KFy-VS-OwM"; */
+"KFy-VS-OwM.normalTitle" = "ln";
+
+/* Class = "UIButton"; normalTitle = "⏎"; ObjectID = "KN3-Em-AU1"; */
+"KN3-Em-AU1.normalTitle" = "⏎";
+
+/* Class = "UIButton"; normalTitle = "atan"; ObjectID = "NMR-e2-EOI"; */
+"NMR-e2-EOI.normalTitle" = "atan";
+
+/* Class = "UIButton"; normalTitle = "sin"; ObjectID = "P13-bn-qNa"; */
+"P13-bn-qNa.normalTitle" = "sin";
+
+/* Class = "UILabel"; text = "y(M) = ?"; ObjectID = "PB7-9i-kMg"; */
+"PB7-9i-kMg.text" = "y(M) = ?";
+
+/* Class = "UIButton"; normalTitle = "ᐩ/-"; ObjectID = "Q3e-n0-5cm"; */
+"Q3e-n0-5cm.normalTitle" = "ᐩ/-";
+
+/* Class = "UIButton"; normalTitle = "-"; ObjectID = "Qna-XV-okY"; */
+"Qna-XV-okY.normalTitle" = "-";
+
+/* Class = "UIButton"; normalTitle = "+"; ObjectID = "Sln-dt-LwY"; */
+"Sln-dt-LwY.normalTitle" = "+";
+
+/* Class = "UIButton"; normalTitle = "9"; ObjectID = "TDg-ql-BxY"; */
+"TDg-ql-BxY.normalTitle" = "9";
+
+/* Class = "UIButton"; normalTitle = "cos"; ObjectID = "TWi-on-NZG"; */
+"TWi-on-NZG.normalTitle" = "cos";
+
+/* Class = "UIButton"; normalTitle = "5"; ObjectID = "WgW-x8-8x9"; */
+"WgW-x8-8x9.normalTitle" = "5";
+
+/* Class = "UIButton"; normalTitle = "6"; ObjectID = "aSN-H4-zNT"; */
+"aSN-H4-zNT.normalTitle" = "6";
+
+/* Class = "UINavigationItem"; title = "Калькулятор"; ObjectID = "c2d-WO-gwy"; */
+"c2d-WO-gwy.title" = "Калькулятор";
+
+/* Class = "UIButton"; normalTitle = "8"; ObjectID = "cwt-aK-rwK"; */
+"cwt-aK-rwK.normalTitle" = "8";
+
+/* Class = "UINavigationItem"; title = "График"; ObjectID = "h14-7Y-22J"; */
+"h14-7Y-22J.title" = "График";
+
+/* Class = "UIButton"; normalTitle = "4"; ObjectID = "hAi-ig-Tu6"; */
+"hAi-ig-Tu6.normalTitle" = "4";
+
+/* Class = "UIButton"; normalTitle = "7"; ObjectID = "hvU-6k-vdn"; */
+"hvU-6k-vdn.normalTitle" = "7";
+
+/* Class = "UIButton"; normalTitle = "0"; ObjectID = "j09-qd-2k1"; */
+"j09-qd-2k1.normalTitle" = "0";
+
+/* Class = "UILabel"; text = "0"; ObjectID = "jfL-Yz-7OZ"; */
+"jfL-Yz-7OZ.text" = "0";
+
+/* Class = "UIButton"; normalTitle = "."; ObjectID = "oJx-Dc-KsJ"; */
+"oJx-Dc-KsJ.normalTitle" = ".";
+
+/* Class = "UIButton"; normalTitle = "1"; ObjectID = "ot0-ck-7fH"; */
+"ot0-ck-7fH.normalTitle" = "1";
+
+/* Class = "UIButton"; normalTitle = "→M"; ObjectID = "pn1-Ll-K9q"; */
+"pn1-Ll-K9q.normalTitle" = "→M";
+
+/* Class = "UIButton"; normalTitle = "inv"; ObjectID = "tAF-4m-Uaq"; */
+"tAF-4m-Uaq.normalTitle" = "inv";
+
+/* Class = "UIButton"; normalTitle = "tan"; ObjectID = "vRD-iW-H47"; */
+"vRD-iW-H47.normalTitle" = "tan";
+
+/* Class = "UIButton"; normalTitle = "3"; ObjectID = "y61-UF-gLv"; */
+"y61-UF-gLv.normalTitle" = "3";
+
+/* Class = "UIButton"; normalTitle = "C"; ObjectID = "zrL-Mo-hk2"; */
+"zrL-Mo-hk2.normalTitle" = "C";
