@@ -9,7 +9,7 @@
 import UIKit
 
 /**
-*  Здесь только пишем только то, что касается Статистики
+*  Extend GraphViewController only for Statistic implementation
 */
 class GraphWithHistoryViewController: GraphViewController, UIPopoverPresentationControllerDelegate {
 

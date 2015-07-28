@@ -12,16 +12,20 @@ import Foundation
 let mSymbol = "M"
 
 class CalculatorViewController: UIViewController {
+    private struct Constants {
+        static let DecimalSeparator = "."
+    }
     
     // MARK: - Members
     @IBOutlet weak var displayLabel: UILabel!
     @IBOutlet weak var historyScrollView: UIScrollView!
     @IBOutlet weak var historyLabel: UILabel!
-    @IBOutlet weak var historyLabelWidthConstraint: NSLayoutConstraint! // Т.к. в приложении используется Autolayout, то ширину Label'а задаем не напрямую компоненту (myLabel.frame.size.width), а через Constraint
+    /// Constraint to control historyLabel.width because use Autolayout
+    @IBOutlet weak var historyLabelWidthConstraint: NSLayoutConstraint!
     var userIsInTheMiddleOfTypingANumber = false
     var brain = CalculatorBrain()
     
-        /// Общается напрямую с displayLabel. Computed property.
+    /// For communicate with displayLabel. Computed property.
     var displayValue: Double? {
         get {
             if let doubleValue = brain.decimalFormatter.numberFromString(displayResult!)?.doubleValue {
@@ -30,7 +34,7 @@ class CalculatorViewController: UIViewController {
             return nil
         }
         set {
-            // Обработка на лишние нули на конце
+            // Handle redundant zeroes at the end of string
             displayResult = newValue == nil ? nil : brain.decimalFormatter.stringFromNumber(newValue!)
             
             userIsInTheMiddleOfTypingANumber = false
@@ -57,7 +61,9 @@ class CalculatorViewController: UIViewController {
         displayValue = brain.evaluate()
     }
     
-    // Сокрытие navigationBar только на calculatorVC (заголовок скрывается - он здесь лишний)
+    /* Hide navigationBar only on this viewController
+    (for hide redundant title of this viewController)
+    */
     override func viewWillAppear(animated: Bool) {
         navigationController?.setNavigationBarHidden(true, animated: animated)
         super.viewWillAppear(animated)
@@ -68,19 +74,19 @@ class CalculatorViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    let decimalSeparator = "."
-    // MARK: - Butttons actions
-    // Метод привязан ко всем цифрам на калькуляторе
+    // MARK: - Buttons actions
+    
+    // This method wired with all digit buttons on calculator
     @IBAction func appendDigit(sender: UIButton) {
         var digit = sender.currentTitle!
         
         // Add to exist digits
         if userIsInTheMiddleOfTypingANumber {
-            //----- Не пускаем избыточную точку ---------------
-            if (digit == decimalSeparator) && (displayLabel.text?.rangeOfString(decimalSeparator) != nil) { return }
-            //----- Уничтожаем лидирующие нули -----------------
+            //----- Handle redudant point ---------------
+            if (digit == Constants.DecimalSeparator) && (displayLabel.text?.rangeOfString(Constants.DecimalSeparator) != nil) { return }
+            //----- Handle to remove prefix zeroes -----------------
             if (digit == "0") && ((displayLabel.text == "0") || (displayLabel.text == "-0")){ return }
-            if (digit != decimalSeparator) && ((displayLabel.text == "0") || (displayLabel.text == "-0"))
+            if (digit != Constants.DecimalSeparator) && ((displayLabel.text == "0") || (displayLabel.text == "-0"))
             { displayLabel.text = digit ; return }
             //--------------------------------------------------
             
@@ -88,11 +94,11 @@ class CalculatorViewController: UIViewController {
         }
         // Add new digit
         else {
-            if digit == decimalSeparator {
-                // Частный случай: если сразу ставим точку, а нуля перед этим нет
-                displayLabel.text = "0" + decimalSeparator
+            if digit == Constants.DecimalSeparator {
+                // Special case: if user tap by "." but not tap zero before this
+                displayLabel.text = "0" + Constants.DecimalSeparator
             } else {
-                // Обычный случай
+                // Usual case
                 displayLabel.text = digit
             }
             
@@ -100,22 +106,21 @@ class CalculatorViewController: UIViewController {
         }
     }
     
-    // Метод привязан к знаку равно на калькуляторе
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         if displayValue == nil {
             return
         }
-        // Помещаем в стек операнд, значение которого сейчас на дисплее
+        // Push operand in stack which value on screen now
         if let result = brain.pushOperand(displayValue!) {
-            // Если в стеке достаточно элементов для вычисления, то результат сразу отображаем на дисплее
+            // If the stack has enough elements to calculate, the result is immediately shown on the display
             displayValue = result
         } else {
             displayValue = 0
         }
     }
     
-    // Метод привязан ко всем знакам вычисления на калькуляторе
+    // This method wired with all button signs of a calculation on a calculator
     @IBAction func operate(sender: UIButton) {
         if (userIsInTheMiddleOfTypingANumber) {
             enter()
@@ -195,7 +200,7 @@ class CalculatorViewController: UIViewController {
     
     // MARK: - Segue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Пробросить существующий brain в этом VC в GraphViewController
+        // Send already exist brain in this viewController to GraphViewController
         
         var destination = segue.destinationViewController as? UIViewController
         if let navCon = destination as? UINavigationController {
@@ -209,4 +214,3 @@ class CalculatorViewController: UIViewController {
         }
     }
 }
-

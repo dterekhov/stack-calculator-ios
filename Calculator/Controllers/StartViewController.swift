@@ -9,7 +9,7 @@
 import UIKit
 
 /**
-*  Этот класс необходим только для того, чтобы не происходил мгновенный переход к detailVC сразу после запуска приложения
+*  This class is required to avoid immediate segue to detailViewController immediately after starting the app
 */
 class StartViewController: UISplitViewController, UISplitViewControllerDelegate {
     

@@ -19,8 +19,10 @@ class HistoryViewController: UIViewController, UITableViewDataSource, UITableVie
     static let CellIdentifier: String = "HistoryViewControllerCell"
     weak var brain: CalculatorBrain?
     
-    /* Замыкание вместо делегирования. Можно было использовать и делегирование.
-    Для обновления graphView при клике по строке в таблице. */
+    /*
+    Using closure instead delegation (but if you want, you can use delegation).
+    To redrawn graphView when clicking on a row in the tableView.
+    */
     var didSelectRowHandler: (() -> ())?
     
     override func viewDidLoad() {

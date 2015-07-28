@@ -9,14 +9,11 @@
 import Foundation
 
 /**
-*  Модель калькулятора
+*  Model of Calculator (engine)
 */
 class CalculatorBrain : Printable
 {
     var description: String {
-        /* По идее нужно обрамить все тело в get { ... } - но этого можно не делать,
-        т.к. в самом конце указан return, что автоматически подразумевает Computed property,
-        содержащее только один getter */
         var (result, remainder) = ("", opStack)
         var current: String?
         do {
@@ -48,7 +45,7 @@ class CalculatorBrain : Printable
             }
         }
         
-                /// Приоритет - вспомогательное свойство для расставления скобок в description модели
+        /// Helper property to correct placing of brackets in description of model
         var precedence: Int {
             switch self {
             case .Operand:
@@ -59,7 +56,7 @@ class CalculatorBrain : Printable
                 switch symbol {
                 case "^":
                     return 4
-                case "✕", "÷": // Между умножением и делением приоритет отдается порядку в стеке
+                case "✕", "÷":
                     return 3
                 case "-":
                     return 2
@@ -76,16 +73,16 @@ class CalculatorBrain : Printable
         }
     }
     
-    // Стек смеси операндов и операций
+    /// The stack is a mixture of operands and operations
     private var opStack = [Op]()
     
-    // Известные операции
+    /// Known operations
     private var knownOps = [String:Op]()
     
-        /// Словарь переменных
+    /// Dictionary of variables
     var variableValues = [String:Double]()
     
-    // Для обрезания на конце лишних нулей
+    /// For handle redudant zeroes at the end of string
     let decimalFormatter = NSNumberFormatter()
     
     init() {
@@ -97,12 +94,12 @@ class CalculatorBrain : Printable
         decimalFormatter.groupingSeparator = " "
         
         
-        // Внутренний метод по обучению новым операциям
+        // Internal method for learning new operations
         func learnOp(op: Op) {
             knownOps[op.description] = op
         }
         
-        // Обучение новым операциям
+        // Learning new operations
         learnOp(Op.BinaryOperation("✕", *, nil))
         learnOp(Op.BinaryOperation("÷", { $1 / $0 }, { op1, op2 in op1 == 0 ? NSLocalizedString("Division by zero", comment: "") : nil }))
         learnOp(Op.BinaryOperation("+", +, nil))
@@ -125,7 +122,7 @@ class CalculatorBrain : Printable
         learnOp(Op.ConstantOperation("e") {M_E})
     }
     
-    // didSet observer только лишь для того, чтобы в начале ошибки добавлять слово "Error" (удобство)
+    // Required to add word "Error" at the begining of error string
     var failureDescription: String? {
         didSet {
             if (failureDescription != nil) {
@@ -135,65 +132,65 @@ class CalculatorBrain : Printable
     }
     
     /**
-    Вычислить выражение
+    To evaluate the expression
     
-    :param: ops Массив смеси операндов и операций
+    :param: ops The stack is a mixture of operands and operations
     
-    :returns: Tuple(результат вычисления, оставшиеся элементы в массиве)
+    :returns: Tuple(calculation result, remaining elements in the array)
     */
     private func evaluate(ops: [Op]) -> (result: Double?, remainingOps: [Op])
     {
         if !ops.isEmpty {
-            // Т.к. массив простой тип, то создаем его копию для дальнейшего изменения
+            // Because an array is a value type, then create a copy of it for further changes
             var remainingOps = ops
-            // Забрать из стека операнд или операцию
+            // Pop from the stack operand or operation
             let op = remainingOps.removeLast()
             switch op {
             case .Operand(let operand):
-                // Если это операнд, то возвращаем в качестве результата значение операнда
+                // If it is an operand, then returned value of the operand
                 return (operand, remainingOps)
             case .UnaryOperation(_, let operation, let validateForError):
-                // Рекурсивный вызов метода для получения операнда, необходимого для вычисления
+                // A recursive method call to retrieve the operand required for the calculation
                 let operandEvaluation = evaluate(remainingOps)
-                // Если с помощью рекурсивного вызова нашли в стеке операнд (.result), то
+                // If in stack was found operand (.result), than
                 if let operand = operandEvaluation.result {
                     
                     var result: Double? = nil
                     if let failureDescription = validateForError?(operand) {
-                        // Если при выполнении операции есть ошибки, то result остается nil'ом
+                        // If during operation has errors, than result is nil
                         
-                        // Сохраняем ошибку
+                        // Save error
                         self.failureDescription = failureDescription
                     } else {
-                        // Если при выполнении операции ошибок нет, то вычисляем результат
+                        // If during operation has no errors, than calculate the result
                         result = operation(operand)
                     }
                     
-                    // Используем исходную операцию для вычисления найденного операнда
+                    // Use source operation to calculate founded operand
                     return (result, operandEvaluation.remainingOps)
                 }
             case .BinaryOperation(_, let operation, let validateForError):
-                // Найти в стеке 1ый операнд
+                // Find 1st operand in stack
                 let op1Evaluation = evaluate(remainingOps)
-                // Если 1ый операнд найден, то
+                // If 1st operand was found, than
                 if let operand1 = op1Evaluation.result {
-                    // Найти в стеке 2ой операнд
+                    // Find 2nd operand in stack
                     let op2Evaluation = evaluate(op1Evaluation.remainingOps)
-                    // Если 2ой операнд найден, то
+                    // If 2nd operand was found, than
                     if let operand2 = op2Evaluation.result {
                         
                         var result: Double? = nil
                         if let failureDescription = validateForError?(operand1, operand2) {
-                            // Если при выполнении операции есть ошибки, то result остается nil'ом
+                            // If during operation has errors, than result is nil
                             
-                            // Сохраняем ошибку
+                            // Save error
                             self.failureDescription = failureDescription
                         } else {
-                            // Если при выполнении операции ошибок нет, то вычисляем результат
+                            // If during operation has no errors, than calculate the result
                             result = operation(operand1, operand2)
                         }
                         
-                        // Используем исходную операцию для вычисления найденных 2х операндов
+                        // Use source operation to calculate 2 founded operands
                         return (result, op2Evaluation.remainingOps)
                     } else {
                         failureDescription = NSLocalizedString("Need 2nd operand", comment: "")
@@ -210,28 +207,28 @@ class CalculatorBrain : Printable
             }
         }
         
-        // Если стек пустой, то в качестве результата возвращается Tuple(nil, пустой_массив)
+        // If stack is empty, than return Tuple(nil, empty_array)
         return (nil, ops)
     }
     
     /**
-    Начать вычисление элементов стека
+    To evaluate the elements of stack
     
-    :returns: Результат вычисления
+    :returns: Result of calculation
     */
     func evaluate() -> Double? {
-        // Очистка ошибки от старых вычислений
+        // Clear old errors
         failureDescription = nil
-        // Tuple(результат_вычисления, оставшиеся_в_стеке_операнды_и_операции)
+        // Tuple(calculation_result, remaining_in_stack_operands_and_operations)
         let (result, remainder) = evaluate(opStack)
-        // Для вывода необходимо и то, и то
         
-        /* ОСТОРОЖНО: Ресурсоемкая операция!
-        На симуляторе можно раскомментировать. На устройстве тормоза
-        при перемещении, масштабировании графика */
+        /*
+        CAUTION: consuming operation!
+        Can uncomment if use simulator.
+        But device has freezes while moving, scaling graphics
+        */
         //println("\(opStack) = \(result) with \(remainder) left over")
         
-        // Но возвращаем только результат вычисления
         return result
     }
     
@@ -253,7 +250,7 @@ class CalculatorBrain : Printable
                 if var operand1 = op1Evaluation.expression {
                     let op2Evaluation = description(op1Evaluation.remainingOps)
                     if let operand2 = op2Evaluation.expression {
-                        // ----- Скобки ставятся, когда предыдущее_выражение < текущего_выражение -----
+                        // --- Brackets placed when the previous_expression < current_expression ---
                         let needParenthesesLeftSide = op2Evaluation.precedence < op.precedence
                         let needParenthesesRightSide = op1Evaluation.precedence < op.precedence
                         println(op2Evaluation.precedence, op.precedence)
@@ -263,7 +260,7 @@ class CalculatorBrain : Printable
                         } else if (needParenthesesRightSide) {
                             resultExpressionFormatted = "%@ %@ (%@)"
                         }
-                        // -----
+                        // ---
                         
                         let resultExpression = String(format: resultExpressionFormatted, "\(operand2)", symbol, "\(operand1)")
                         return (resultExpression, op2Evaluation.remainingOps, op.precedence)
@@ -280,26 +277,26 @@ class CalculatorBrain : Printable
     }
     
     /**
-    Добавить операнд в стек и затем сразу вычислить
+    Add the operand to the stack and then immediately calculate
     
-    :param: operand Значение операнда
+    :param: operand Operand value
     
-    :returns: Результат вычисления
+    :returns: Calculation result
     */
     func pushOperand(operand: Double) -> Double? {
-        // Оборачиваем значение в операнд и добавляем его в стек
+        // Create operand from value and add to the stack
         opStack.append(Op.Operand(operand))
         ProgramSaver.saveProgram(program)
-        // Сразу выполняем вычисление после добавления в стек
+        // Immediately calculate after adding to the stack
         return evaluate()
     }
     
     /**
-    Добавить переменную (только ее имя) в стек и затем сразу вычислить
+    Add a variable (only the name) to the stack and then immediately calculate
     
-    :param: symbol Имя переменной
+    :param: symbol Variable name
     
-    :returns: Результат вычисления
+    :returns: Calculation result
     */
     func pushOperand(symbol: String) -> Double? {
         opStack.append(Op.Variable(symbol))
@@ -316,19 +313,18 @@ class CalculatorBrain : Printable
     }
     
     /**
-    Добавить операцию в стек и затем сразу вычислить
+    Add the operation to the stack and then immediately calculate
     
-    :param: symbol Символ операции
+    :param: symbol Operation symbol
     
-    :returns: Результат вычисления
+    :returns: Calculation result
     */
     func performOperation(symbol: String) -> Double? {
-        // Добавить операцию в стек, если эта операция известна
+        // Add operation to the stack if it is known
         if let operation = knownOps[symbol] {
             opStack.append(operation)
             ProgramSaver.saveProgram(program)
         }
-        // Сразу выполняем вычисление после добавления в стек
         return evaluate()
     }
     
@@ -340,13 +336,13 @@ class CalculatorBrain : Printable
         return variableValues[symbol]
     }
     
-    // MARK: - Парсинг opStack
-    typealias PropertyList = AnyObject // Для удобочитаемости
+    // MARK: - opStack parse
+    typealias PropertyList = AnyObject // Convenient
     
     /**
-    *  Под program подразумевается сохраненный opStack для его последующего восстановления
+    *  Saved opStack for further recovery it
     */
-    var program: PropertyList { // Гарантированно является PropertyList
+    var program: PropertyList { // Guaranteed PropertyList
         get {
             return opStack.map { (var op) -> String in
                 op.description
@@ -361,7 +357,7 @@ class CalculatorBrain : Printable
                     } else if let operand = decimalFormatter.numberFromString(opSymbol)?.doubleValue {
                         newOpStack.append(.Operand(operand))
                     } else {
-                        // В противном случае это должна быть переменная
+                        // Otherwise it must be a variable
                         newOpStack.append(.Variable(opSymbol))
                     }
                 }

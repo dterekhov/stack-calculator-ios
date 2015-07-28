@@ -30,8 +30,7 @@ class GraphView: UIView {
         static let ScaleKey: String = "scale"
     }
     
-    /* Не забывайте использовать ​d​idSet, чтобы заставить ваше UIV​i​ew заметить,
-    что оно нуждается в перерисовке, когда свойство, воздействующее на него, изменяется. */
+    // Redrawn graphView when values of inspectable properties changes
     @IBInspectable
     var scale: CGFloat = 50.0 { didSet { setNeedsDisplay() } }
     @IBInspectable
@@ -64,9 +63,10 @@ class GraphView: UIView {
         // Draw cycle
         var pointIteration = CGPoint()
         
-        /* Этот флаг необходим для осведомленности о том, что точка pointIteration
-        является 1ой точкой при построении графика, не содержащей в себе
-        ошибочных значений X и Y */
+        /*
+        When graph drawn this flag is required to know that pointIteration
+        is the 1st point not containing incorrect X and Y values
+        */
         var isFirstValue = true
         
         for var drawIteration = 0; drawIteration <= Int(bounds.size.width); drawIteration++ {

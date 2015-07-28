@@ -15,7 +15,6 @@ class GraphViewController: UIViewController, GraphViewDataSource {
     // MARK: - Properties
     @IBOutlet weak var graphView: GraphView! {
         didSet {
-            /* Прекрасным местом для вашего MVC, где можно установить себя в качестве D​ata Source​ делегата для вашего графического UIView, является property observer для вашего o​utlet​ к графическому UIV​i​ew. */
             graphView.dataSource = self
             
             // Add gestures to Move(1) origin point and Scale(2) graph
@@ -59,8 +58,10 @@ class GraphViewController: UIViewController, GraphViewDataSource {
     func y(x: CGFloat) -> CGFloat? {
         var yFloatValue: CGFloat?
         if let calcBrain = brain {
-            /* Запоминаем значение M, если оно было установлено через калькулятор
-            и не является промежуточным значением для построения графика */
+            /*
+            The memorized value M if it was setted in calculator
+            and not an intermediate value to drawn graph
+            */
             let mSymbolSettedInCalc = calcBrain.getVariable(mSymbol)
             
             // Insert value in Brain
@@ -71,10 +72,10 @@ class GraphViewController: UIViewController, GraphViewDataSource {
             }
             
             if mSymbolSettedInCalc != nil {
-                // Восстанавливаем значение M, установленное через калькулятор
+                // Restore value M if it was setted in calculator
                 calcBrain.setVariable(mSymbol, value: mSymbolSettedInCalc!)
             } else {
-                // ИЛИ очищаем значение M, которое было промежуточным для построения графика
+                // OR clear value M if it was used only to drawn graph as intermediate value
                 calcBrain.setVariable(mSymbol, value: nil)
             }
         }
